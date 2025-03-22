@@ -11,24 +11,22 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
-    - name: Setup Flutter
+    - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: "stable"
-
-    - name: Enable Web Support
-      run: flutter config --enable-web
+        channel: 'stable'
+        flutter-version: '3.29.0'  # Specify the required Flutter version
 
     - name: Install dependencies
       run: flutter pub get
 
-    - name: Build Web
-      run: flutter build web --release
+    - name: Build web app
+      run: flutter build web
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        branch: gh-pages
-        folder: build/web
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: build/web
